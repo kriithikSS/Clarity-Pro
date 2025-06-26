@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="clarity-popup">
+    <header>
+      <h1>🧘 Clarity</h1>
+      <p>Mindful browsing companion</p>
+    </header>
+    
+    <main>
+      <section class="stats">
+        <h2>Today's Overview</h2>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="stat-number" id="loopCount">-</span>
+            <span class="stat-label">Loop detections</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="scrollSessions">-</span>
+            <span class="stat-label">Long scroll sessions</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="avgMood">-</span>
+            <span class="stat-label">Average mood</span>
+          </div>
+        </div>
+      </section>
+      
+      <section class="settings">
+        <h2>Settings</h2>
+        <div class="setting-item">
+          <label>
+            <input type="checkbox" id="loopDetection" checked>
+            Loop detection
+          </label>
+        </div>
+        <div class="setting-item">
+          <label>
+            <input type="checkbox" id="doomscrollPrevention" checked>
+            Doomscroll prevention
+          </label>
+        </div>
+        <div class="setting-item">
+          <label>
+            <input type="checkbox" id="speedBumps" checked>
+            Speed bumps
+          </label>
+        </div>
+        <div class="setting-item">
+          <label>
+            <input type="checkbox" id="emotionCheckins" checked>
+            Emotion check-ins
+          </label>
+        </div>
+      </section>
+      
+      <section class="actions">
+        <button id="viewInsights" class="primary-btn">View Insights</button>
+        <button id="takeBreak" class="secondary-btn">Take a Break</button>
+      </section>
+    </main>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

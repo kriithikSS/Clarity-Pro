@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "Clarity - Mindful Browsing",
+  "version": "1.0.0",
+  "description": "A mindful browsing companion that helps you stay aware of your digital habits",
+  
+  "permissions": [
+    "tabs",
+    "history",
+    "storage",
+    "activeTab",
+    "webRequest",
+    "declarativeNetRequest"
+  ],
+  
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["utils/storage.js", "utils/sites-config.js", "content.js"],
+      "css": ["styles/overlays.css"],
+      "run_at": "document_start"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Clarity Settings",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "overlays/*.html",
+        "assets/*",
+        "styles/overlays.css"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
