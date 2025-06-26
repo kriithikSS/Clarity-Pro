@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Speed Bump - Clarity</title>
+    <link rel="stylesheet" href="../styles/overlays.css">
+</head>
+<body>
+    <div class="clarity-overlay clarity-speed-bump">
+        <div class="clarity-content">
+            <h2>✋ Slow down</h2>
+            <p>You're about to enter a time-sink site.</p>
+            <p>"The present moment is the only time over which we have dominion." - Thich Nhat Hanh</p>
+            
+            <div class="clarity-timer">
+                <p>Would you like to set a timer?</p>
+                <div class="timer-buttons">
+                    <button onclick="parent.clarityActions.setTimer(10)">10 min</button>
+                    <button onclick="parent.clarityActions.setTimer(20)">20 min</button>
+                    <button onclick="parent.clarityActions.setTimer(30)">30 min</button>
+                </div>
+            </div>
+            
+            <button class="clarity-continue" onclick="parent.clarityActions.closeOverlay()">Continue without timer</button>
+        </div>
+    </div>
+</body>
+</html>

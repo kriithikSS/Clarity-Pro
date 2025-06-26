@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Doomscroll Detection</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+        
+        .breathing-animation {
+            margin: 20px 0;
+        }
+        
+        .breath-circle {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #4CAF50;
+            border-radius: 50%;
+            margin: 0 auto;
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .emotion-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .emotion-buttons button {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .emotion-buttons button:hover {
+            border-color: #4CAF50;
+            background: #f0f8ff;
+            transform: scale(1.05);
+        }
+        
+        .continue-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="breathing-animation">
+            <div class="breath-circle"></div>
+        </div>
+        <h1>📱 Time to breathe</h1>
+        <p>You've been scrolling for a while. Take a moment to check in with yourself.</p>
+        <p><strong>How do you feel right now?</strong></p>
+        <div class="emotion-buttons">
+            <button onclick="logEmotion('energized')">⚡ Energized</button>
+            <button onclick="logEmotion('overwhelmed')">😵 Overwhelmed</button>
+            <button onclick="logEmotion('bored')">😑 Bored</button>
+            <button onclick="logEmotion('anxious')">😰 Anxious</button>
+        </div>
+        <button class="continue-btn" onclick="continueBrowsing()">Continue browsing</button>
+    </div>
+
+    <script>
+        function logEmotion(emotion) {
+            // Send message to content script
+            window.parent.postMessage({
+                type: 'CLARITY_EMOTION_LOGGED',
+                emotion: emotion
+            }, '*');
+        }
+
+        function continueBrowsing() {
+            window.parent.postMessage({
+                type: 'CLARITY_CONTINUE_BROWSING'
+            }, '*');
+        }
+    </script>
+</body>
+</html>
