@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+  <title>Clarity Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h2 {
+      color: #2d3748;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .setting-group {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .setting-group:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 8px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    input[type="text"]:disabled {
+      background: #f7fafc;
+      color: #a0aec0;
+      cursor: not-allowed;
+    }
+
+    .row {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .sites-container {
+      flex: 1;
+    }
+
+    #siteList {
+      min-height: 40px;
+      max-height: 120px;
+      overflow-y: auto;
+      padding: 8px;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    #siteList:empty::before {
+      content: 'No websites added yet';
+      color: #a0aec0;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    #siteList span {
+      display: inline-flex;
+      align-items: center;
+      margin: 4px 6px 4px 0;
+      padding: 6px 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #siteList button {
+      margin-left: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+
+    #siteList button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .checkbox-container:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .checkbox-wrapper {
+      position: relative;
+    }
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e0;
+      border-radius: 4px;
+      appearance: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    input[type="checkbox"]:checked {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-color: #667eea;
+    }
+
+    input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .checkbox-label {
+      font-weight: 600;
+      color: #4a5568;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button#save {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button#save::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    button#save:hover::before {
+      left: 100%;
+    }
+
+    button#save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    button#save:active {
+      transform: translateY(0);
+    }
+
+    .description {
+      font-size: 13px;
+      color: #718096;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .icon {
+      display: inline-block;
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    /* Scrollbar styling */
+    #siteList::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #siteList::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    #siteList::-webkit-scrollbar-thumb {
+      background: #cbd5e0;
+      border-radius: 3px;
+    }
+
+    #siteList::-webkit-scrollbar-thumb:hover {
+      background: #a0aec0;
+    }
+
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 30px 20px;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2><span class="icon">⚙️</span>Clarity Settings</h2>
+
+    <div class="setting-group">
+      <label><span class="icon">⏱️</span>Max continuous scrolling time (seconds):</label>
+      <div class="input-wrapper">
+        <input id="scrollDuration" type="number" min="1" value="15" />
+      </div>
+      <div class="description">How long you can scroll before receiving a notification</div>
+    </div>
+
+    <div class="setting-group">
+      <label><span class="icon">⏰</span>Reset after inactivity (seconds):</label>
+      <div class="input-wrapper">
+        <input id="inactivityReset" type="number" min="1" value="2" />
+      </div>
+      <div class="description">Time of inactivity before the scroll timer resets</div>
+    </div>
+
+    <div class="setting-group">
+      <label><span class="icon">🌐</span>Add website (press Enter):</label>
+      <div class="row">
+        <div class="sites-container">
+          <input id="siteInput" type="text" placeholder="e.g. youtube.com" />
+          <div id="siteList"></div>
+        </div>
+      </div>
+      <div class="description">Add specific websites where Clarity should monitor your scrolling</div>
+    </div>
+
+    <div class="checkbox-container">
+      <div class="checkbox-wrapper">
+        <input id="applyToAll" type="checkbox" checked />
+      </div>
+      <label class="checkbox-label" for="applyToAll">
+        <span class="icon">🌍</span>Apply to all websites
+      </label>
+    </div>
+
+    <button id="save">
+      <span class="icon">💾</span>Save Settings
+    </button>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,70 +1,468 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="popup.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clarity Pro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      width: 360px;
+      min-height: 600px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      margin: 15px;
+      padding: 25px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 25px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #4a5568;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 15px 0 10px 0;
+      color: #2d3748;
+    }
+
+    .time-input {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      border: 2px solid rgba(102, 126, 234, 0.2);
+    }
+
+    .time-input input[type="number"] {
+      width: 70px;
+      height: 45px;
+      padding: 8px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .time-input input[type="number"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .time-input span {
+      font-size: 24px;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 6px 0;
+      border: none;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #testBtn, #startTimerBtn {
+      background: linear-gradient(135deg, #4299e1, #3182ce);
+    }
+
+    #focusModeBtn {
+      background: linear-gradient(135deg, #38b2ac, #319795);
+    }
+
+    #quickBreakBtn {
+      background: linear-gradient(135deg, #ed8936, #dd6b20);
+    }
+
+    #stopTimerBtn {
+      background: linear-gradient(135deg, #e53e3e, #c53030);
+    }
+
+    #addSiteBtn {
+      background: linear-gradient(135deg, #38a169, #2f855a);
+    }
+
+    .doomscroll-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .doomscroll-buttons button {
+      font-size: 12px;
+      padding: 10px 8px;
+    }
+
+    #timerSection {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      border: 2px solid rgba(102, 126, 234, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    #timerDisplay {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 10px 0;
+      color: #667eea;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #timerLabel {
+      font-size: 14px;
+      color: #4a5568;
+      font-weight: 600;
+    }
+
+    #timerCompletionMessage {
+      font-size: 14px;
+      color: #38a169;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #718096;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #667eea;
+      margin-top: 5px;
+    }
+
+    .focus-controls {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #2d3748;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+      accent-color: #667eea;
+      cursor: pointer;
+    }
+
+    #focusTimerDisplay {
+      font-size: 13px;
+      color: #4a5568;
+      margin: 12px 0;
+      text-align: center;
+      font-weight: 600;
+      background: rgba(102, 126, 234, 0.1);
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    #siteList {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 15px;
+      max-height: 140px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+
+    #siteList::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #siteList::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+    }
+
+    #siteList::-webkit-scrollbar-thumb {
+      background: #667eea;
+      border-radius: 3px;
+    }
+
+    #siteList li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+      font-size: 13px;
+      transition: background-color 0.2s ease;
+    }
+
+    #siteList li:hover {
+      background-color: rgba(102, 126, 234, 0.05);
+    }
+
+    #siteList li:last-child {
+      border-bottom: none;
+    }
+
+    #addSiteInput {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    #addSiteInput:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    #addSiteInput::placeholder {
+      color: #a0aec0;
+    }
+
+    #errorMessage {
+      color: #e53e3e;
+      font-size: 12px;
+      margin-bottom: 8px;
+      padding: 8px 12px;
+      background: rgba(229, 62, 62, 0.1);
+      border-radius: 6px;
+      border: 1px solid rgba(229, 62, 62, 0.2);
+      font-weight: 500;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #e53e3e;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      width: auto;
+    }
+
+    .remove-btn:hover {
+      background-color: rgba(229, 62, 62, 0.1);
+      transform: scale(1.1);
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.2s; }
+    .section:nth-child(4) { animation-delay: 0.3s; }
+    .section:nth-child(5) { animation-delay: 0.4s; }
+  </style>
 </head>
 <body>
-  <div class="clarity-popup">
-    <header>
-      <h1>🧘 Clarity</h1>
-      <p>Mindful browsing companion</p>
-    </header>
-    
-    <main>
-      <section class="stats">
-        <h2>Today's Overview</h2>
-        <div class="stat-grid">
-          <div class="stat-item">
-            <span class="stat-number" id="loopCount">-</span>
-            <span class="stat-label">Loop detections</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="scrollSessions">-</span>
-            <span class="stat-label">Long scroll sessions</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="avgMood">-</span>
-            <span class="stat-label">Average mood</span>
-          </div>
+  <div class="container">
+    <h1>Clarity Pro</h1>
+
+    <div class="section">
+      <h2>⏱️ Mindful Timers</h2>
+      <div class="time-input">
+        <input type="number" id="hours" min="0" max="23" value="00" placeholder="HH">
+        <span>:</span>
+        <input type="number" id="minutes" min="0" max="59" value="00" placeholder="MM">
+        <span>:</span>
+        <input type="number" id="seconds" min="0" max="59" value="00" placeholder="SS">
+      </div>
+      <button id="startTimerBtn">Start Custom Timer</button>
+      <button id="focusModeBtn">🎯 Focus (25m)</button>
+      <button id="quickBreakBtn">☕ Break (5m)</button>
+    </div>
+
+    <div id="timerSection" style="display: none;">
+      <p id="timerLabel"></p>
+      <p id="timerDisplay">00:00:00</p>
+      <p id="timerCompletionMessage"></p>
+      <button id="stopTimerBtn" style="display: none;">Stop Timer</button>
+    </div>
+
+    <div class="section">
+      <h2>📈 Today's Progress</h2>
+      <div class="progress-stats">
+        <div class="stat-item">
+          <div class="stat-label">Reflections</div>
+          <div class="stat-value" id="reflectionsCount">0</div>
         </div>
-      </section>
-      
-      <section class="settings">
-        <h2>Settings</h2>
-        <div class="setting-item">
-          <label>
-            <input type="checkbox" id="loopDetection" checked>
-            Loop detection
-          </label>
-        </div>
-        <div class="setting-item">
-          <label>
-            <input type="checkbox" id="doomscrollPrevention" checked>
-            Doomscroll prevention
-          </label>
-        </div>
-        <div class="setting-item">
-          <label>
-            <input type="checkbox" id="speedBumps" checked>
-            Speed bumps
-          </label>
-        </div>
-        <div class="setting-item">
-          <label>
-            <input type="checkbox" id="emotionCheckins" checked>
-            Emotion check-ins
-          </label>
-        </div>
-      </section>
-      
-      <section class="actions">
-        <button id="viewInsights" class="primary-btn">View Insights</button>
-        <button id="takeBreak" class="secondary-btn">Take a Break</button>
-      </section>
-    </main>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📱 Doomscrolling</h2>
+      <div class="doomscroll-buttons">
+        <button id="viewStats">📊 View Stats</button>
+        <button id="openSettings">⚙️ Settings</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🔒 Focus Mode & Social Sites</h2>
+      <div class="focus-controls">
+        <label><input type="checkbox" id="focusToggle"> Enable Focus Mode</label>
+        <div id="focusTimerDisplay">Focus Time: 0m 0s</div>
+      </div>
+
+      <h3>🚫 Blocked Social Sites</h3>
+      <ul id="siteList"></ul>
+      <input type="text" id="addSiteInput" placeholder="Add site (e.g., linkedin.com)">
+      <div id="errorMessage" style="display: none;"></div>
+      <button id="addSiteBtn">+ Add Site</button>
+    </div>
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
 </html>

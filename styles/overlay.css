@@ -1,0 +1,32 @@
+/* Basic styles for the overlay to ensure it covers the page */
+.clarity-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999; /* Ensure it's on top of everything */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Styles for background and animation are in content.js for dynamic control */
+}
+
+/* Keyframe animations for the overlay */
+@keyframes clarityFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes clarityFadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.9); }
+}
+
+/* Styles for elements inside the overlay (if not inlined in content.js) */
+/* Example:
+.clarity-overlay h1 {
+    color: #2c3e50;
+}
+*/

@@ -1,58 +1,47 @@
 {
   "manifest_version": 3,
-  "name": "Clarity - Mindful Browsing",
-  "version": "1.0.0",
-  "description": "A mindful browsing companion that helps you stay aware of your digital habits",
-  
+  "name": "Clarity - Mindful Browsing Assistant",
+  "version": "1.0",
+  "description": "Disrupt distractions and stay mindful with site blocking, intelligent timers, and tab activity detection.",
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "permissions": [
     "tabs",
-    "history",
     "storage",
-    "activeTab",
-    "webRequest",
-    "declarativeNetRequest"
+    "notifications",
+    "scripting",
+    "windows",
+    "activeTab"
   ],
-  
   "host_permissions": [
-    "http://*/*",
-    "https://*/*"
+    "<all_urls>"
   ],
-  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": "icons/icon48.png"
+  },
   "background": {
     "service_worker": "background.js"
   },
-  
+  "options_page": "options/options.html",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["utils/storage.js", "utils/sites-config.js", "content.js"],
-      "css": ["styles/overlays.css"],
-      "run_at": "document_start"
+      "js": ["content/scrollWatcher.js", "content/content.js"],
+      "css": ["styles/overlay.css"]
     }
   ],
-  
-  "action": {
-    "default_popup": "popup/popup.html",
-    "default_title": "Clarity Settings",
-    "default_icon": {
-      "16": "assets/icon16.png",
-      "48": "assets/icon48.png",
-      "128": "assets/icon128.png"
-    }
-  },
-  
-  "icons": {
-    "16": "assets/icon16.png",
-    "48": "assets/icon48.png",
-    "128": "assets/icon128.png"
-  },
-  
   "web_accessible_resources": [
     {
       "resources": [
-        "overlays/*.html",
-        "assets/*",
-        "styles/overlays.css"
+        "pages/dashboard.html",
+        "pages/dashboard.js",
+        "pages/tab_overload.html",
+        "pages/tab_overload.js",
+        "pages/breathe.html",
+        "assets/breathing.gif"
       ],
       "matches": ["<all_urls>"]
     }
